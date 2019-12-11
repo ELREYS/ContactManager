@@ -7,13 +7,11 @@ const Header = ({ title }) => {
       <Container>
         <Navbar.Brand href="/">{title}</Navbar.Brand>
       </Container>
-      <ul>
-        <Nav className="mr-auto">
-          <Nav.Item href="/">
-            <Nav.Link>Home</Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </ul>
+      <Nav className="mr-auto">
+        <Nav.Item href="/">
+          <Nav.Link>Home</Nav.Link>
+        </Nav.Item>
+      </Nav>
     </Navbar>
   );
 };

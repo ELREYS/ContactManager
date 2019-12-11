@@ -1,26 +1,37 @@
-import React from "react";
-import { Card, ListGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import Contact from "./Contact";
 
-const Contacts = ({ name, email, phone }) => {
+const Contacts = () => {
+  const people = [
+    {
+      id: 1,
+      name: "Giuseppe Di Lisa",
+      email: "gdilisa@hotmail.com",
+      phone: "14885"
+    },
+
+    {
+      id: 2,
+      name: "Sarah Fenton",
+      email: "sarah@hotmail.com",
+      phone: "4751411"
+    },
+
+    {
+      id: 3,
+      name: "Bob Marley",
+      email: "bob@hotmail.com",
+      phone: "1242"
+    }
+  ];
+
   return (
-    <Card>
-      <Card.Body className="mb-3">
-        <h4>{name}</h4>
-        <ListGroup>
-          <ListGroup.Item>
-            <div>{email}</div>
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <div>{phone}</div>
-          </ListGroup.Item>
-        </ListGroup>
-      </Card.Body>
-    </Card>
+    <div>
+      {people.map(contact => (
+        <Contact key={contact.id} contact={contact} />
+      ))}
+    </div>
   );
-};
-
-const title = {
-  fontSize: 20
 };
 
 export default Contacts;
