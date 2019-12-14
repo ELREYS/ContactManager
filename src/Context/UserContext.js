@@ -1,37 +1,52 @@
-import React, { useReducer, createContext, useContext } from 'react';
-
+import React, { useReducer, createContext } from "react";
 
 const people = [
-    {
-      id: 1,
-      name: "Giuseppe Di Lisa",
-      email: "gdilisa@hotmail.com",
-      phone: "14885"
-    },
+	{
+		id: 1,
+		name: "Giuseppe Di Lisa",
+		email: "gdilisa@hotmail.com",
+		phone: "14885"
+	},
 
-    {
-      id: 2,
-      name: "Sarah Fenton",
-      email: "sarah@hotmail.com",
-      phone: "4751411"
-    },
+	{
+		id: 2,
+		name: "Sarah Fenton",
+		email: "sarah@hotmail.com",
+		phone: "4751411"
+	},
 
-    {
-      id: 3,
-      name: "Bob Marley",
-      email: "bob@hotmail.com",
-      phone: "1242"
-    }
-  ];
+	{
+		id: 3,
+		name: "Bob Marley",
+		email: "bob@hotmail.com",
+		phone: "1242"
+	}
+];
 
+const reducer = (state, action) => {
+	switch (action.type) {
+		case "DELETE_CONTACT":
+			console.log(`Delete in UserContext this id:${action.payload}`);
+			console.log(state);
 
+			return {...state, people: state.people.filter(contact => contact.id !== action.payload)}
+			
+			
 
-export const  StateContext = createContext();
-export const  StateProvider = ({reducer,initialState,children}) =>{
+			
+		default:
+			return state;
+	}
+};
 
-   return( <StateContext.Provider value={people}>
-        {children}
-    </StateContext.Provider>)
-}
-
-export const useStateValue = () => useContext(StateContext);
+export const StateContext = createContext();
+export const StateProvider = ({ children }) => {
+	const [state, dispatch] = useReducer(reducer, {people});
+	console.log(state.people);
+	
+	return (
+		<StateContext.Provider value={{ state, dispatch }}>
+			{children}
+		</StateContext.Provider>
+	);
+};

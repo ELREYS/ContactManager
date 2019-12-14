@@ -1,21 +1,23 @@
 import React, { useContext } from "react";
 import Contact from "./Contact";
-
-import {StateContext} from '../Context/UserContext';
+import { StateContext } from "../Context/UserContext";
 
 
 
 const Contacts = () => {
     
-  const people = useContext(StateContext); 
-  console.log(people);
+
+  
+  
+  const{state} = useContext(StateContext);
+  console.log(`From Contacts:${state.people}`);
   
     
   return (
     
     <div>
      {
-       people.map(p =>(
+       state.people.map(p =>(
         <Contact key={p.id} contact={p}/>
        ))
        

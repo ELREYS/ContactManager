@@ -1,10 +1,10 @@
 import React from "react";
 import Header from "./Components/Header";
-import Contact from "./Components/Contact";
+import Contacts from "./Components/Contacts";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
-import Contacts from "./Components/Contacts";
+
 import {StateProvider} from '../src/Context/UserContext';
 
 function App() {
