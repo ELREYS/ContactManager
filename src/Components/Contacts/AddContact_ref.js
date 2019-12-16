@@ -47,7 +47,7 @@ const AddContact = () => {
             variant="light"
             block={true}
             type="submit"
-            onClick={result => console.log({ name, email, phone })}
+            onClick={result => {}}
             value="Add Contact"
           >
             Add Contact

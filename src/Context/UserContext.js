@@ -34,6 +34,14 @@ const reducer = (state, action) => {
         people: state.people.filter(contact => contact.id !== action.payload)
       };
 
+    case "ADD_CONTACT":
+      console.log(action.payload);
+
+      return {
+        ...state,
+        people: [action.payload, ...state.people]
+      };
+
     default:
       return state;
   }

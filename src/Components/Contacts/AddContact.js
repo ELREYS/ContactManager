@@ -1,5 +1,7 @@
-import React, { useState, createRef } from "react";
+import React, { createRef, useContext } from "react";
 import { Card, FormGroup, Form, Button } from "react-bootstrap";
+import { StateContext } from "../../Context/UserContext";
+import uuid from "uuid";
 
 const defaultProps = {
   name: "Giuseppe Di Lisa",
@@ -8,6 +10,10 @@ const defaultProps = {
 };
 
 const AddContact = () => {
+  const context = useContext(StateContext);
+
+  const { dispatch } = context;
+
   const { name, email, phone } = defaultProps;
 
   const nameInput = createRef(null);
@@ -16,12 +22,14 @@ const AddContact = () => {
 
   const submitForm = () => {
     const newContact = {
+      id: uuid(),
       name: nameInput.current.value,
       email: emailInput.current.value,
       phone: phoneInput.current.value
     };
-
     console.log(newContact);
+
+    dispatch({ type: "ADD_CONTACT", payload: newContact });
   };
 
   return (
