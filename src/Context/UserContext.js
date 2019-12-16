@@ -35,8 +35,6 @@ const reducer = (state, action) => {
       };
 
     case "ADD_CONTACT":
-      console.log(action.payload);
-
       return {
         ...state,
         people: [action.payload, ...state.people]

@@ -1,78 +1,75 @@
-import React, { createRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Card, FormGroup, Form, Button } from "react-bootstrap";
+import TextInputGroup from "../Layout/TextInputGroup";
 import { StateContext } from "../../Context/UserContext";
 import uuid from "uuid";
-
-const defaultProps = {
-  name: "Giuseppe Di Lisa",
-  email: "gdilisa@homail.com",
-  phone: "+4176845786"
-};
 
 const AddContact = () => {
   const context = useContext(StateContext);
 
-  const { dispatch } = context;
+  const [name, setName] = useState("Hans Muster");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [phone, setPhone] = useState("+4178974565");
 
-  const { name, email, phone } = defaultProps;
+  const onChange = value => {
+    console.log(value.target.name);
 
-  const nameInput = createRef(null);
-  const emailInput = createRef(null);
-  const phoneInput = createRef(null);
+    switch (value.target.name) {
+      case "Name":
+        setName(value.target.value);
+        break;
+      case "Email":
+        setEmail(value.target.value);
+        break;
+      case "Phone":
+        setPhone(value.target.value);
+        break;
 
-  const submitForm = () => {
+      default:
+        break;
+    }
+  };
+
+  const submitForm = values => {
+    console.log(values);
     const newContact = {
       id: uuid(),
-      name: nameInput.current.value,
-      email: emailInput.current.value,
-      phone: phoneInput.current.value
+      name: values.name,
+      email: values.email,
+      phone: values.phone
     };
     console.log(newContact);
 
-    dispatch({ type: "ADD_CONTACT", payload: newContact });
+    context.dispatch({ type: "ADD_CONTACT", payload: newContact });
   };
 
   return (
     <Card className="mb-3">
       <Card.Header>Add Contact</Card.Header>
       <Card.Body>
-        <FormGroup controlId="formName">
-          <Form.Label name="name">Name</Form.Label>
-          <Form.Control
-            size="lg"
-            type="text"
-            name="name"
-            placeholder="Enter  Name .."
+        <FormGroup>
+          <TextInputGroup
+            type={"Name"}
             defaultValue={name}
-            ref={nameInput}
-          ></Form.Control>
-        </FormGroup>
-        <FormGroup>
-          <Form.Label name="email">Email</Form.Label>
-          <Form.Control
-            size="lg"
-            type="email"
-            name="email"
-            placeholder="Enter  Email .."
+            onChange={onChange}
+          ></TextInputGroup>
+          <TextInputGroup
+            value={email}
+            type={"Email"}
             defaultValue={email}
-            ref={emailInput}
-          ></Form.Control>
-        </FormGroup>
-        <FormGroup>
-          <Form.Label name="phone">Phone</Form.Label>
-          <Form.Control
-            size="lg"
-            type="text"
-            name="phone"
-            placeholder="Enter  Phone .."
+            onChange={onChange}
+          ></TextInputGroup>
+          <TextInputGroup
+            value={name}
+            type={"Phone"}
             defaultValue={phone}
-            ref={phoneInput}
-          ></Form.Control>
+            onChange={onChange}
+          ></TextInputGroup>
           <Button
             variant="light"
             block={true}
             type="submit"
-            onClick={result => submitForm()}
+            onClick={result => submitForm({ name, email, phone })}
             value="Add Contact"
           >
             Add Contact
