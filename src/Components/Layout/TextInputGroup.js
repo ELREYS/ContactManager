@@ -1,27 +1,21 @@
 import React from "react";
 import { FormGroup, Form } from "react-bootstrap";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
-const TextInputGroup = ({ type, defaultValue, onChange }) => {
+const TextInputGroup = ({ content, type, onChange, Label }) => {
   return (
-    <FormGroup controlId="formName">
-      <Form.Label name="name">{type}</Form.Label>
+    <FormGroup controlId={Label}>
+      <Form.Label name={Label}>{Label}</Form.Label>
       <Form.Control
         size="lg"
         type={type}
-        name={type}
+        name={Label}
         placeholder={`${type}`}
-        value={defaultValue}
+        value={content}
         onChange={value => onChange(value)}
       ></Form.Control>
     </FormGroup>
   );
-};
-
-TextInputGroup.propTypes = {
-  type: PropTypes.string.isRequired,
-  defaultValue: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
 };
 
 export default TextInputGroup;
