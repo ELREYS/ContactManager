@@ -9,9 +9,10 @@ const AddContact = () => {
 
   const initialState = {
     id: "",
-    name: "Giuseppe Di Lisa",
-    email: "gdilisa@hotmail.com",
-    phone: "+41787945646546546"
+    name: "",
+    email: "",
+    phone: "",
+    errors: { name: null, email: null, phone: null }
   };
 
   const reducer = (state, action) => {
@@ -19,35 +20,84 @@ const AddContact = () => {
 
     switch (action.type) {
       case "Name":
-        return { ...state, name: action.payload };
+        console.log(action.payload.errorStatus);
+
+        return {
+          ...state,
+          name: action.payload.changedText,
+          errors: { name: action.payload.errorStatus }
+        };
       case "Email":
-        return { ...state, email: action.payload };
+        return {
+          ...state,
+          email: action.payload.changedText,
+          errors: { email: action.payload.errorStatus }
+        };
       case "Phone":
-        return { ...state, phone: action.payload };
+        return {
+          ...state,
+          phone: action.payload.changedText,
+          errors: { phone: action.payload.errorStatus }
+        };
       default:
         break;
     }
   };
 
+  const checkIfFielsEmpty = state => {
+    return state.length < 1 ? true : false;
+  };
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const onChange = event => {
+    const state = checkIfFielsEmpty(event.currentTarget.value);
+    console.log(state);
+
+    console.log(event.currentTarget);
+
     dispatch({
       type: event.currentTarget.name,
-      payload: event.currentTarget.value
+      payload: { changedText: event.currentTarget.value, errorStatus: state }
     });
   };
 
   const submitForm = values => {
-    console.log("VALUES:" + { values });
-    const newContact = {
-      id: uuid(),
-      name: values.name,
-      email: values.email,
-      phone: values.phone
-    };
-    console.log(newContact);
-    context.dispatch({ type: "ADD_CONTACT", payload: newContact });
+    console.log("VALUES:");
+    console.log(values);
+
+    const { name, email, phone } = values;
+
+    if (name === "") {
+      dispatch({
+        type: "Name",
+        payload: { changedText: "", errorStatus: true }
+      });
+      return;
+    }
+    if (email === "") {
+      dispatch({
+        type: "Email",
+        payload: { changedText: "", errorStatus: true }
+      });
+      return;
+    }
+    if (phone === "") {
+      dispatch({
+        type: "Phone",
+        payload: { changedText: "", errorStatus: true }
+      });
+      return;
+    } else {
+      const newContact = {
+        id: uuid(),
+        name: values.name,
+        email: values.email,
+        phone: values.phone
+      };
+      console.log("ADD CONTACTS");
+      context.dispatch({ type: "ADD_CONTACT", payload: newContact });
+    }
   };
 
   console.log("INIT_______INIT");
@@ -63,24 +113,27 @@ const AddContact = () => {
             type={"text"}
             Label={"Name"}
             onChange={onChange}
+            error={state.errors.name}
           ></TextInputGroup>
           <TextInputGroup
             content={state.email}
-            type={"text"}
+            type={"email"}
             Label={"Email"}
             onChange={onChange}
+            error={state.errors.email}
           ></TextInputGroup>
           <TextInputGroup
             content={state.phone}
             type={"text"}
             Label={"Phone"}
             onChange={onChange}
+            error={state.errors.phone}
           ></TextInputGroup>
           <Button
             variant="light"
             block={true}
             type="submit"
-            onClick={result => submitForm(state)}
+            onClick={() => submitForm(state)}
             value="Add Contact"
           >
             Add Contact
